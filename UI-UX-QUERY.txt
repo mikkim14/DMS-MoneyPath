@@ -1,0 +1,149 @@
+User Table:
+UserID (Primary Key)
+Name
+Email/Username
+Password
+Social Media Login Details (if applicable)
+dateCreated
+
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Name VARCHAR(85),
+    Email VARCHAR(85),
+    Password VARCHAR(85),
+    Username VARCHAR(85),
+    SocialMediaLoginDetails VARCHAR(85),
+    dateCreated TIMESTAMP
+);
+
+INSERT INTO Users (UserID, Name, Email, Password, Username, SocialMediaLoginDetails, dateCreated)
+VALUES
+(1, 'John Doe', 'john.doe@example.com', 'password123', 'john_doe', NULL, '2023-01-01 12:00:00'),
+(2, 'Jane Smith', 'jane.smith@example.com', 'securepass', 'jane_smith', NULL, '2023-01-02 14:30:00'),
+(3, 'Bob Johnson', 'bob.johnson@example.com', 'pass123', 'bob_johnson', 'facebook:123456789', '2023-01-03 10:45:00'),
+(4, 'Alice Davis', 'alice.davis@example.com', 'alicepass', 'alice_davis', 'twitter:alice123', '2023-01-04 09:15:00'),
+(5, 'Charlie Brown', 'charlie.brown@example.com', 'peanuts', 'charlie_brown', NULL, '2023-01-05 17:30:00'),
+(6, 'Eva White', 'eva.white@example.com', 'evapass', 'eva_white', 'instagram:eva.white', '2023-01-06 08:45:00'),
+(7, 'David Lee', 'david.lee@example.com', 'davidpass', 'david_lee', NULL, '2023-01-07 13:00:00'),
+(8, 'Grace Turner', 'grace.turner@example.com', 'gracepass', 'grace_turner', 'linkedin:grace123', '2023-01-08 11:30:00'),
+(9, 'Frank Miller', 'frank.miller@example.com', 'frankpass', 'frank_miller', NULL, '2023-01-09 15:45:00'),
+(10, 'Olivia Moore', 'olivia.moore@example.com', 'oliviapass', 'olivia_moore', 'google:olivia', '2023-01-10 14:00:00');
+
+
+
+
+Transaction Table:
+TransactionID (Primary Key)
+UserID (Foreign Key)
+dateCreated 
+Description
+Amount
+Type (Expense/Income)
+
+CREATE TABLE Transactions (
+    TransactionID INT PRIMARY KEY,
+    UserID INT,
+    dateCreated TIMESTAMP,
+    Description VARCHAR(255),
+    Amount DECIMAL(10, 2),
+    Type VARCHAR(10),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+INSERT INTO Transactions (TransactionID, UserID, dateCreated, Description, Amount, Type)
+VALUES
+(1, 1, '2023-01-01 13:30:00', 'Grocery shopping', 50.00, 'Expense'),
+(2, 2, '2023-01-02 15:45:00', 'Salary', 3000.00, 'Income'),
+(3, 3, '2023-01-03 11:00:00', 'Dinner with friends', 30.00, 'Expense'),
+(4, 4, '2023-01-04 09:30:00', 'Utilities', 100.00, 'Expense'),
+(5, 5, '2023-01-05 18:00:00', 'Book purchase', 20.00, 'Expense'),
+(6, 6, '2023-01-06 09:00:00', 'Movie tickets', 15.00, 'Expense'),
+(7, 7, '2023-01-07 13:30:00', 'Lunch meeting', 25.00, 'Expense'),
+(8, 8, '2023-01-08 12:00:00', 'Freelance payment', 500.00, 'Income'),
+(9, 9, '2023-01-09 16:00:00', 'Coffee break', 5.00, 'Expense'),
+(10, 10, '2023-01-10 14:30:00', 'Online course fee', 80.00, 'Expense');
+
+
+
+
+Budget Table:
+BudgetID (Primary Key)
+UserID (Foreign Key)
+Amount
+Period (Monthly/Weekly)
+CategoryID (Foreign Key)
+
+
+CREATE TABLE Budgets (
+    BudgetID INT PRIMARY KEY,
+    UserID INT,
+    Amount DECIMAL(10, 2),
+    Period VARCHAR(20),
+    CategoryID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
+);
+
+INSERT INTO Budgets (BudgetID, UserID, Amount, Period, CategoryID)
+VALUES
+(1, 1, 500.00, 'Monthly', 1),
+(2, 2, 1000.00, 'Monthly', 2),
+(3, 3, 200.00, 'Weekly', 3),
+(4, 4, 150.00, 'Monthly', 1),
+(5, 5, 50.00, 'Weekly', 3),
+(6, 6, 300.00, 'Monthly', 2),
+(7, 7, 100.00, 'Weekly', 1),
+(8, 8, 800.00, 'Monthly', 2),
+(9, 9, 30.00, 'Weekly', 3),
+(10, 10, 200.00, 'Monthly', 1);
+
+
+
+Notifications Table:
+NotificationID (Primary Key)
+UserID (Foreign Key)
+Description
+Type (Reminder/Alert)
+dateCreated
+
+CREATE TABLE Notifications (
+    NotificationID INT PRIMARY KEY,
+    UserID INT,
+    Description VARCHAR(255),
+    Type VARCHAR(20),
+    dateCreated TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+INSERT INTO Notifications (NotificationID, UserID, Description, Type, dateCreated)
+VALUES
+(1, 1, 'Reminder: Pay bills', 'Reminder', '2023-01-01 14:00:00'),
+(2, 2, 'Alert: Low balance', 'Alert', '2023-01-02 16:00:00'),
+(3, 3, 'Reminder: Schedule appointment', 'Reminder', '2023-01-03 11:30:00'),
+(4, 4, 'Alert: Account update', 'Alert', '2023-01-04 10:00:00'),
+(5, 5, 'Reminder: Read a book', 'Reminder', '2023-01-05 18:30:00'),
+(6, 6, 'Alert: Movie premiere', 'Alert', '2023-01-06 09:15:00'),
+(7, 7, 'Reminder: Project deadline', 'Reminder', '2023-01-07 14:00:00'),
+(8, 8, 'Alert: New connection request', 'Alert', '2023-01-08 12:30:00'),
+(9, 9, 'Reminder: Team meeting', 'Reminder', '2023-01-09 16:30:00'),
+(10, 10, 'Alert: Course completion', 'Alert', '2023-01-10 15:00:00');
+
+
+
+Category Table:
+CategoryID (Primary Key)
+CategoryName
+Type  (Expense/Income)
+
+CREATE TABLE Category (
+    CategoryID INT PRIMARY KEY,
+    CategoryName VARCHAR(20),
+    Type VARCHAR(15)
+);
+
+INSERT INTO Category (CategoryID, CategoryName, Type)
+VALUES
+(1, 'Food', 'Expense'),
+(2, 'Salary', 'Income'),
+(3, 'Entertainment', 'Expense'),
+(4, 'Utilities', 'Expense');
